@@ -1,0 +1,14 @@
+services:
+  api:
+    build: ./backend
+    environment:
+      ASCLEPIUS_SECRET: ${ASCLEPIUS_SECRET:-dev-only-secret-change-me}
+      ASCLEPIUS_CORS: http://localhost:3000
+    ports: ["8000:8000"]
+  web:
+    build:
+      context: ./frontend
+      args:
+        ASCLEPIUS_API_URL: http://api:8000
+    depends_on: [api]
+    ports: ["3000:3000"]
