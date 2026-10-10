@@ -20,7 +20,8 @@ Interactive docs: `http://localhost:8000/api/docs` (OpenAPI). Auth: `Authorizati
 | Calculators | `GET /api/calculators`, `POST /api/calculators/{id}` (cha2ds2-vasc, curb65, cockcroft-gault, bmi-bsa, corrected-calcium) |
 | CDS Hooks | `GET /cds-services` (open discovery), `POST /cds-services/asclepius-patient-view` (`{hook, context:{patientId}}` → `{cards}`) |
 | Bulk export | `GET /fhir/$export` → 202 + `Content-Location`; `GET /fhir/export/{job}`; `GET /fhir/export/{job}/{Type}.ndjson` (owner only) |
-| Chart extras | `GET /api/patients/{id}/bodymap`, `/patients/{id}/discharge` |
+| Chart extras | `GET /api/patients/{id}/bodymap`, `/discharge`, `/caregaps`, `/labreview` |
+| Quality | `GET /api/quality/caregaps` (aggregate over patients the caller may see) |
 | FHIR R4 | `GET /fhir/metadata`, `/fhir/{Type}?patient=&_count=…`, `/fhir/{Type}/{id}`, `/fhir/Patient/{id}/$everything`, `POST /fhir/{Type}`, `GET /fhir/CodeSystem/$lookup`, `/fhir/ValueSet/$validate-code`, `/fhir/ConceptMap/$translate` |
 
 Roles: physician, nurse (ward-scoped), pharmacist, admin (operations only), privacy_officer (audit and reviews).

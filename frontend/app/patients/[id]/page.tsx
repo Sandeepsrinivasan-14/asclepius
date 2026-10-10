@@ -3,15 +3,16 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Activity, AlertOctagon, ArrowLeft, BrainCircuit, Boxes, FileOutput, FilterX, ClipboardList, FileText, FlaskConical, Globe2, Lock, Pill, ShieldAlert, UserRound, Siren, Clock } from "lucide-react";
+import { Activity, AlertOctagon, ArrowLeft, BrainCircuit, Boxes, FileOutput, FilterX, ClipboardList, FileText, FlaskConical, Globe2, ListChecks, TestTubes, Lock, Pill, ShieldAlert, UserRound, Siren, Clock } from "lucide-react";
 import { api } from "@/lib/api";
 import { Badge, Modal, PageHeader, Tabs, useApi, useToast, Loading, ErrorBox, Disclaimer } from "@/components/ui";
 import { Overview, VitalsLabs } from "@/components/patient/tabs";
 import { BodyMapTab, makeFilter, type OrganFilter } from "@/components/patient/bodymap";
+import { CareGaps, LabReview } from "@/components/patient/quality";
 import { Copilot, Handoff, MedRec, NotesCoding, Portal, Timeline, Warning } from "@/components/patient/tabs2";
 import { news2Color, riskColor } from "@/lib/utils";
 
-type T = "overview" | "bodymap" | "vitals" | "timeline" | "notes" | "copilot" | "warning" | "medrec" | "handoff" | "portal";
+type T = "overview" | "bodymap" | "vitals" | "timeline" | "notes" | "copilot" | "warning" | "medrec" | "handoff" | "portal" | "caregaps" | "labreview";
 
 export default function PatientPage() {
   const { id } = useParams<{ id: string }>();
@@ -50,6 +51,7 @@ export default function PatientPage() {
     { id: "overview", label: "Overview", icon: <UserRound size={14} /> }, { id: "bodymap", label: "Body map", icon: <Boxes size={14} /> }, { id: "vitals", label: "Vitals and labs", icon: <FlaskConical size={14} /> }, { id: "timeline", label: "Timeline", icon: <Clock size={14} /> },
     { id: "notes", label: "Notes and coding", icon: <FileText size={14} /> }, { id: "copilot", label: "Differential copilot", icon: <BrainCircuit size={14} /> }, { id: "warning", label: "Early warning", icon: <Activity size={14} /> },
     { id: "medrec", label: "Medication safety", icon: <Pill size={14} /> }, { id: "handoff", label: "SBAR handoff", icon: <ClipboardList size={14} /> }, { id: "portal", label: "Patient portal", icon: <Globe2 size={14} /> },
+    { id: "caregaps", label: "Care gaps", icon: <ListChecks size={14} /> }, { id: "labreview", label: "Lab review", icon: <TestTubes size={14} /> },
   ];
   return (
     <>
@@ -93,6 +95,8 @@ export default function PatientPage() {
         {tab === "medrec" && <MedRec pid={id} />}
         {tab === "handoff" && <Handoff pid={id} />}
         {tab === "portal" && <Portal pid={id} />}
+        {tab === "caregaps" && <CareGaps pid={id} />}
+        {tab === "labreview" && <LabReview pid={id} />}
       </motion.div>
     </>
   );

@@ -17,9 +17,11 @@ from . import (
     abdm,
     bodymap,
     calculators,
+    caregaps,
     cds,
     coding,
     copilot,
+    deltacheck,
     discharge,
     fhir,
     hl7,
@@ -228,6 +230,43 @@ def patient_bodymap(pid: str, state: AppState = Depends(get_state), p: Principal
     ch = state.chart(pid)
     assert ch is not None
     return bodymap.body_map(ch)
+
+
+@router.get("/patients/{pid}/caregaps")
+def patient_caregaps(pid: str, state: AppState = Depends(get_state), p: Principal = Depends(get_principal)) -> dict[str, Any]:
+    guard_patient(state, p, "patient:read", pid, "caregaps")
+    ch = state.chart(pid)
+    assert ch is not None
+    return caregaps.care_gaps(ch)
+
+
+@router.get("/patients/{pid}/labreview")
+def patient_labreview(pid: str, state: AppState = Depends(get_state), p: Principal = Depends(get_principal)) -> dict[str, Any]:
+    guard_patient(state, p, "patient:read", pid, "labreview")
+    ch = state.chart(pid)
+    assert ch is not None
+    return deltacheck.lab_review(ch)
+
+
+@router.get("/quality/caregaps")
+def quality_caregaps(state: AppState = Depends(get_state), p: Principal = Depends(get_principal)) -> dict[str, Any]:
+    """Population view over the patients this principal may already see: aggregate measure rates plus the most open patients."""
+    state.sec.require(p, "patient:read")
+    totals: dict[str, dict[str, Any]] = {}
+    worst = []
+    for pid in state.sec.visible_patients(p):
+        ch = state.chart(pid)
+        if not ch:
+            continue
+        r = caregaps.care_gaps(ch)
+        for g in r["gaps"]:
+            t = totals.setdefault(g["id"], {"title": g["title"], "open": 0, "met": 0})
+            t["open" if g["status"] != "met" else "met"] += 1
+        worst.append({"id": pid, "name": ch.name, "open": r["open"]})
+    worst.sort(key=lambda x: -x["open"])
+    rows = [{"id": k, "title": v["title"], "open": v["open"], "met": v["met"], "rate": round(v["met"] / (v["open"] + v["met"]), 2)} for k, v in totals.items()]
+    rows.sort(key=lambda x: (x["rate"], x["id"]))
+    return {"measures": rows, "most_open": worst[:5]}
 
 
 @router.get("/patients/{pid}/discharge")

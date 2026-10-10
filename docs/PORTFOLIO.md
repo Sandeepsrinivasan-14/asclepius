@@ -6,7 +6,7 @@
 - Optional: rename the repo to `asclepius` (GitHub redirects the old URL). Pin it on your profile.
 
 ## Resume bullets (pick 3)
-- Built **Asclepius**, a full-stack healthcare-IT platform (FastAPI, Next.js 15) implementing HL7 FHIR R4 search/`$everything`, SMART App Launch with PKCE S256, an HL7 v2 ingestion pipeline (idempotency, retry with backoff, dead-letter replay) and an ABDM-aligned consent flow; 74 backend tests at 92% coverage, CDS Hooks and bulk FHIR export, 22 Playwright end-to-end tests, CI with secret scanning.
+- Built **Asclepius**, a full-stack healthcare-IT platform (FastAPI, Next.js 15) implementing HL7 FHIR R4 search/`$everything`, SMART App Launch with PKCE S256, an HL7 v2 ingestion pipeline (idempotency, retry with backoff, dead-letter replay) and an ABDM-aligned consent flow; 83 backend tests at 92% coverage, CDS Hooks and bulk FHIR export, 23 Playwright end-to-end tests, CI with secret scanning.
 - Designed a **verified clinical-AI layer**: a cited differential copilot and ambient scribe whose every sentence passes six checks (citation validity, numeric fidelity, chart consistency, allergy safety, scope guard) before release; exact per-feature explanations for a calibrated 24-hour deterioration model compared against NEWS2.
 - Implemented **security and governance** for health data: role + care-team + consent access control, time-boxed break-glass with privacy-officer review, SHA-256 hash-chained audit log with tamper detection, model cards, PSI drift monitoring, subgroup fairness (four-fifths rule) and clinician-override tracking.
 

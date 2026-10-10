@@ -51,6 +51,8 @@ Most "medical AI" demos are a chat box over a model. Real hospital software is m
 - **CDS Hooks**: a `patient-view` service (`/cds-services`) that returns advisory cards for NEWS2 deterioration and critical results; access-checked and audited.
 - **FHIR bulk export**: `GET /fhir/$export` produces NDJSON per resource type, limited to patients the caller may see, with one audit entry per patient.
 - **Themes**: Clinic day, ICU night and a high-contrast mode (`t` cycles themes, `h` toggles contrast).
+- **Care gaps**: guideline-style preventive screening, immunisation and chronic-disease monitoring gaps per patient, plus a population rollup at `/api/quality/caregaps`.
+- **Lab review**: delta checks on rapidly changing results and KDIGO acute-kidney-injury staging from creatinine trends.
 - **Customisable dashboard**: drag, resize and hide widgets; layout is saved in the browser.
 - **Onboarding and navigation**: spotlight tour, alerts drawer, and keyboard shortcuts (`?` lists them, `g` then a letter jumps to a page).
 
@@ -125,13 +127,13 @@ Design decisions are explained in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md); 
 - **Fail closed.** Unknown user, missing scope, no care relationship, or no consent means denial, and the denial is audited.
 - **AI is a suggestion, never an actor.** Deterministic, inspectable models; every sentence verified; override rates measured.
 - **Honest evaluation.** Metrics are reported on synthetic data and labelled optimistic. Fairness flags are shown even when they are noise.
-- **Reproducible.** Fixed seeds, in-memory database by default, 92% backend test coverage, 22 browser end-to-end tests, CI with secret scanning.
+- **Reproducible.** Fixed seeds, in-memory database by default, 92% backend test coverage, 23 browser end-to-end tests, CI with secret scanning.
 
 ## Tests
 
 ```bash
-cd backend && python -m pytest --cov=asclepius -q   # 74 tests, 92% coverage
-cd frontend && npm run e2e:install && npm run e2e   # 22 Playwright tests (or `make e2e`)
+cd backend && python -m pytest --cov=asclepius -q   # 83 tests, 92% coverage
+cd frontend && npm run e2e:install && npm run e2e   # 23 Playwright tests (or `make e2e`)
 ```
 
 The e2e config starts the backend and frontend itself; set `E2E_REUSE=1` to reuse servers already running.

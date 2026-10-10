@@ -19,6 +19,7 @@
 - **`cds.py`** builds CDS Hooks cards from a chart; the route authorises the patient and audits the call.
 - **Bulk export** keeps job output in memory per owner; each exported patient is audited.
 - **Frontend**: theming via `data-theme` / `data-contrast` on `<html>` (`app/themes.css`); widget layout and tour state live in `localStorage`.
+- **`caregaps.py`** and **`deltacheck.py`** are pure functions of a `Chart`: preventive and monitoring gaps, lab delta checks and KDIGO AKI staging. Endpoints authorise and audit like any chart read.
 - **Browser tests**: Playwright specs in `frontend/e2e` start both servers and exercise the real stack.
 
 ## Request path for a patient read

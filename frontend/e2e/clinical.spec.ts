@@ -56,6 +56,16 @@ test.describe("patient chart", () => {
     await expect(page.getByTestId("problems").locator("li")).toHaveCount(all);
   });
 
+  test("care gaps and lab review tabs load for a patient", async ({ page, request }) => {
+    await loginAs(page, request);
+    await openPatient(page, "Joseph Thomas");
+    await page.getByRole("button", { name: "Care gaps" }).click();
+    await expect(page.getByText(/open · \d+ up to date/)).toBeVisible();
+    await page.getByRole("button", { name: "Lab review" }).click();
+    await expect(page.getByTestId("labreview")).toBeVisible();
+    await expect(page.getByText("Kidney injury screen")).toBeVisible();
+  });
+
   test("clicking the 3D canvas does not crash the page", async ({ page, request }) => {
     await loginAs(page, request);
     await openPatient(page, "Joseph Thomas");
